@@ -1,0 +1,16 @@
+install node modules:
+* npm init -y (yes to all)
+
+install Express
+* npm i express
+
+install typeScript
+* npm install -D typescript ts-node-dev @types/node @types/express
+
+create tsconfig.json
+* npx tsc --init
+* adjust file
+
+* set up folder structure
+* create index.ts
+* add scripts to package.json
