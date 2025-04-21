@@ -1,6 +1,8 @@
 import { Pool } from "pg";
+//dotenv
+import "dotenv/config";
 
-const pool = new Pool({
+export const pool = new Pool({
   //local
   user: process.env.DB_USER,
   host: process.env.DB_HOST,
@@ -16,9 +18,3 @@ export async function query<T>(
   const result = await pool.query(text, params);
   return result;
 }
-
-// Test the connection on startup
-pool
-  .connect()
-  .then(() => console.log(`✅ Connected to PostgreSQL`))
-  .catch((err) => console.error("❌ Database connection error:", err));
