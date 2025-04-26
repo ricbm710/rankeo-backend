@@ -1,6 +1,4 @@
 import { DataSource } from "typeorm";
-//entities
-import { User } from "./entities/User"; // Make sure to import your entities
 
 export const AppDataSource = new DataSource({
   type: "postgres",
@@ -11,7 +9,7 @@ export const AppDataSource = new DataSource({
   database: process.env.DB_NAME,
   synchronize: true,
   logging: ["query", "error"],
-  entities: [User],
+  entities: ["entities/*.ts"],
 });
 
 export const initializeDataSource = async () => {

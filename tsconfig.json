@@ -1,14 +1,17 @@
 {
   "compilerOptions": {
-    "target": "ES6",
-    "module": "CommonJS",
-    "rootDir": "./src",
-    "outDir": "./dist",
-    "strict": true,
-    "esModuleInterop": true,
-    "skipLibCheck": true,
-    /* related to TypeORM entities */
-    "experimentalDecorators": true,
-    "emitDecoratorMetadata": true
-  }
+    "target": "ES2020", // Good target for modern Node.js (v14+)
+    "module": "CommonJS", // Required for Node.js
+    "moduleResolution": "node", // Resolves modules like Node.js
+    "rootDir": "./src", // Your TS source files
+    "outDir": "./dist", // Compiled JS output
+    "strict": true, // Enables all strict type checks
+    "esModuleInterop": true, // For default imports like `import express from 'express'`
+    "skipLibCheck": true, // Speeds up compilation by skipping `.d.ts` checks
+    "experimentalDecorators": true, // Required by TypeORM for decorators
+    "emitDecoratorMetadata": true, // Also required by TypeORM for metadata reflection
+    "forceConsistentCasingInFileNames": true // Prevents issues on case-sensitive file systems
+  },
+  "include": ["src/**/*.ts"],
+  "exclude": ["node_modules"]
 }
