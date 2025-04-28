@@ -1,15 +1,16 @@
+//data-source
 import { AppDataSource } from "../data-source";
 //entities
-import { User } from "../entities/User";
+import { Users } from "../entities/Users";
 //dtos
 import { CreateUserDTO } from "../dtos/createUser.dto";
 //bcrypt
 import bcrypt from "bcrypt";
 
 export class UserService {
-  private userRepo = AppDataSource.getRepository(User);
+  private userRepo = AppDataSource.getRepository(Users);
 
-  async createUser(data: CreateUserDTO): Promise<User> {
+  async createUser(data: CreateUserDTO): Promise<Users> {
     const hashedPassword = await bcrypt.hash(data.password, 10);
 
     const user = this.userRepo.create({
@@ -20,7 +21,7 @@ export class UserService {
     return await this.userRepo.save(user);
   }
 
-  async findByEmail(email: string): Promise<User | null> {
+  async findByEmail(email: string): Promise<Users | null> {
     return await this.userRepo.findOneBy({ email });
   }
 }
