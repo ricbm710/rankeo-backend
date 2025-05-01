@@ -11,7 +11,7 @@ export const registerUser = async (req: Request, res: Response) => {
 
     const existing = await userService.findByEmail(email);
     if (existing) {
-      res.status(409).json({ message: "Email already registered." });
+      res.status(409).json({ message: "Email ya existe." });
       return;
     }
 
@@ -23,7 +23,7 @@ export const registerUser = async (req: Request, res: Response) => {
     });
     res.status(201).json({ id: newUser.id, email: newUser.email });
   } catch (err) {
-    console.error("User registration failed:", err);
-    res.status(500).json({ message: "Something went wrong." });
+    console.error("Error en el registro de usuario:", err);
+    res.status(500).json({ message: "Error. Algo salió mal." });
   }
 };
