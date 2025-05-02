@@ -16,7 +16,14 @@ export const loginUser = async (req: Request, res: Response) => {
       return;
     }
 
-    res.status(200).json({ token });
+    res.cookie("auth_token", token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "strict",
+      maxAge: 1000 * 60 * 60 * 24, // 1 day
+    });
+
+    res.status(200).json({ message: "Sesión iniciada correctamente" });
   } catch (err) {
     console.error("No se pudo iniciar sesión:", err);
     res.status(500).json({ message: "Error. Algo salió mal." });

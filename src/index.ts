@@ -11,14 +11,23 @@ import { AppDataSource } from "./data-source";
 //routes
 import userRouter from "./routes/user.routes";
 import authRouter from "./routes/auth.routes";
+//cookie-parser
+import cookieParser from "cookie-parser";
 
 dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-app.use(cors());
+app.use(
+  cors({
+    origin: process.env.FRONTEND_URL || "http://localhost:5173", // adjust to your frontend's URL
+    credentials: true, // 👈 allow cookies to be sent
+  })
+);
 app.use(express.json());
+app.use(cookieParser());
+
 app.use("/api", userRouter);
 app.use("/api", authRouter);
 
