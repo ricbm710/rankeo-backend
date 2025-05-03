@@ -23,6 +23,7 @@ export class AuthService {
     const isValid = await bcrypt.compare(data.password, user.password_hash);
     if (!isValid) return null;
 
+    // this is the user payload that I can retrieve later from the frontend
     return generateToken({
       userId: user.id,
       name: user.name,

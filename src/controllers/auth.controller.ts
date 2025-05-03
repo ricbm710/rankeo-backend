@@ -2,6 +2,7 @@
 import { Request, Response } from "express";
 //services
 import { AuthService } from "../services/auth.service";
+import { AuthenticatedRequest } from "../middleware/auth.middlware";
 
 const authService = new AuthService();
 
@@ -28,4 +29,20 @@ export const loginUser = async (req: Request, res: Response) => {
     console.error("No se pudo iniciar sesión:", err);
     res.status(500).json({ message: "Error. Algo salió mal." });
   }
+};
+
+export const getCurrentUser = async (
+  req: AuthenticatedRequest,
+  res: Response
+) => {
+  if (!req.user) {
+    res.status(401).json({ message: "Usuario no autenticado." });
+    return;
+  }
+
+  res.json({
+    userId: req.user.userId,
+    name: req.user.name,
+    email: req.user.email,
+  });
 };
