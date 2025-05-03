@@ -25,4 +25,7 @@ export class Users {
 
   @Column({ type: "timestamp", default: () => "CURRENT_TIMESTAMP" })
   member_since!: Date;
+
+  @Column({ type: "varchar", nullable: true })
+  image_string!: string | null;
 }
