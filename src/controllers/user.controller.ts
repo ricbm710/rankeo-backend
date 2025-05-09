@@ -29,14 +29,18 @@ export const registerUser = async (req: Request, res: Response) => {
 };
 
 export const checkEmailExists = async (req: Request, res: Response) => {
-  try {
-    const { email } = req.body;
+  const { email } = req.query;
 
+  if (typeof email !== "string") {
+    res.status(400).json({ error: "Correo Inválido" });
+    return;
+  }
+  try {
     const user = await userService.findByEmail(email);
 
     res.status(200).json({ exists: !!user });
   } catch (err) {
-    console.error("Error en el chequeo del email:", err);
+    console.error("Error en el chequeo del correo:", err);
     res.status(500).json({ message: "Error. Algo salió mal." });
   }
 };
