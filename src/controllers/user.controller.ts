@@ -27,3 +27,16 @@ export const registerUser = async (req: Request, res: Response) => {
     res.status(500).json({ message: "Error. Algo salió mal." });
   }
 };
+
+export const checkEmailExists = async (req: Request, res: Response) => {
+  try {
+    const { email } = req.body;
+
+    const user = await userService.findByEmail(email);
+
+    res.status(200).json({ exists: !!user });
+  } catch (err) {
+    console.error("Error en el chequeo del email:", err);
+    res.status(500).json({ message: "Error. Algo salió mal." });
+  }
+};
