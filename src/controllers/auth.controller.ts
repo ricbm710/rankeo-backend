@@ -24,10 +24,10 @@ export const loginUser = async (req: Request, res: Response) => {
       maxAge: 1000 * 60 * 60 * 24, // 1 day
     });
 
-    res.status(200).json({ message: "Sesión iniciada correctamente" });
+    res.status(200).json({ message: "Sesión iniciada correctamente." });
   } catch (err) {
     console.error("No se pudo iniciar sesión:", err);
-    res.status(500).json({ message: "Error. Algo salió mal." });
+    res.status(500).json({ message: "Error -> No se pudo iniciar sesión." });
   }
 };
 

@@ -23,8 +23,10 @@ export const registerUser = async (req: Request, res: Response) => {
     });
     res.status(201).json({ id: newUser.id, email: newUser.email });
   } catch (err) {
-    console.error("Error en el registro de usuario:", err);
-    res.status(500).json({ message: "Error. Algo salió mal." });
+    console.error("No se pudo registrar el usuario:", err);
+    res
+      .status(500)
+      .json({ message: "Error -> No se pudo registrar el usuario." });
   }
 };
 
@@ -40,7 +42,9 @@ export const checkEmailExists = async (req: Request, res: Response) => {
 
     res.status(200).json({ exists: !!user });
   } catch (err) {
-    console.error("Error en el chequeo del correo:", err);
-    res.status(500).json({ message: "Error. Algo salió mal." });
+    console.error("No se pudo chequear el correo:", err);
+    res
+      .status(500)
+      .json({ message: "Error -> No se pudo chequear el correo." });
   }
 };
