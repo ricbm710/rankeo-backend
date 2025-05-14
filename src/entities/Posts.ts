@@ -5,9 +5,12 @@ import {
   ManyToOne,
   CreateDateColumn,
   JoinColumn,
+  OneToMany,
 } from "typeorm";
+// entities
 import { Users } from "./Users";
 import { Categories } from "./Categories";
+import { PostVotes } from "./PostVotes";
 
 @Entity()
 export class Posts {
@@ -32,4 +35,7 @@ export class Posts {
   })
   @JoinColumn({ name: "category_id" })
   category!: Categories;
+
+  @OneToMany(() => PostVotes, (vote) => vote.post)
+  votes!: PostVotes[];
 }
