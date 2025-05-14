@@ -11,6 +11,7 @@ import { AppDataSource } from "./data-source";
 //routes
 import userRouter from "./routes/user.routes";
 import authRouter from "./routes/auth.routes";
+import postRouter from "./routes/post.routes";
 //cookie-parser
 import cookieParser from "cookie-parser";
 
@@ -30,6 +31,7 @@ app.use(cookieParser());
 
 app.use("/api", userRouter);
 app.use("/api", authRouter);
+app.use("/api", postRouter);
 
 AppDataSource.initialize()
   .then(() => {
