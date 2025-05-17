@@ -5,7 +5,9 @@ import {
   CreateDateColumn,
   ManyToOne,
   Unique,
+  JoinColumn,
 } from "typeorm";
+//entities
 import { Users } from "./Users";
 import { Posts } from "./Posts";
 
@@ -16,9 +18,11 @@ export class PostVotes {
   id!: number;
 
   @ManyToOne(() => Posts, (post) => post.votes, { onDelete: "CASCADE" })
+  @JoinColumn({ name: "post_id" }) // 👈 match DB
   post!: Posts;
 
   @ManyToOne(() => Users, (user) => user.votes, { onDelete: "CASCADE" })
+  @JoinColumn({ name: "user_id" }) // 👈 match DB
   user!: Users;
 
   @Column({ type: "boolean" })
