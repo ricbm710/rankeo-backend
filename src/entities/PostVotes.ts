@@ -30,4 +30,6 @@ export class PostVotes {
 
   @CreateDateColumn()
   created_at!: Date;
+
+  // -------------------------------------------------------->
 }

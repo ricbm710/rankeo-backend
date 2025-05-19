@@ -7,6 +7,9 @@ import { Users } from "./entities/Users";
 import { Posts } from "./entities/Posts";
 import { Categories } from "./entities/Categories";
 import { PostVotes } from "./entities/PostVotes";
+import { Options } from "./entities/Options";
+import { PostOptions } from "./entities/PostOptions";
+import { PostOptionVotes } from "./entities/PostOptionVotes";
 
 dotenv.config();
 
@@ -17,9 +20,19 @@ export const AppDataSource = new DataSource({
   username: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME,
-  synchronize: true,
+  synchronize: false,
   logging: ["query", "error"],
-  entities: [Users, Posts, Categories, PostVotes],
+  entities: [
+    Users,
+    Posts,
+    Categories,
+    PostVotes,
+    Options,
+    PostOptions,
+    PostOptionVotes,
+  ],
+  // only required for resetting the TypeORM schema
+  // dropSchema: true,
 });
 
 export const initializeDataSource = async () => {

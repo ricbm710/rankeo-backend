@@ -11,6 +11,7 @@ import {
 import { Users } from "./Users";
 import { Categories } from "./Categories";
 import { PostVotes } from "./PostVotes";
+import { PostOptions } from "./PostOptions";
 
 @Entity()
 export class Posts {
@@ -36,6 +37,11 @@ export class Posts {
   @JoinColumn({ name: "category_id" })
   category!: Categories;
 
+  // -------------------------------------------------------->
+
   @OneToMany(() => PostVotes, (vote) => vote.post)
   votes!: PostVotes[];
+
+  @OneToMany(() => PostOptions, (postOption) => postOption.post)
+  postOptions!: PostOptions[];
 }

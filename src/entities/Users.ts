@@ -9,6 +9,8 @@ import {
 //entities
 import { PostVotes } from "./PostVotes";
 import { Posts } from "./Posts";
+import { PostOptions } from "./PostOptions";
+import { PostOptionVotes } from "./PostOptionVotes";
 
 @Entity()
 @Unique(["email", "auth_provider"]) // Unique constraint on email + auth_provider
@@ -38,9 +40,17 @@ export class Users {
   @Column({ type: "varchar", nullable: true })
   image_string!: string | null;
 
+  // -------------------------------------------------------->
+
   @OneToMany(() => Posts, (post) => post.creator)
   posts!: Posts[];
 
   @OneToMany(() => PostVotes, (vote) => vote.user)
   votes!: PostVotes[];
+
+  @OneToMany(() => PostOptions, (postOption) => postOption.addedBy)
+  postOptionsAdded!: PostOptions[];
+
+  @OneToMany(() => PostOptionVotes, (vote) => vote.votedBy)
+  postOptionVotes!: PostOptionVotes[];
 }
