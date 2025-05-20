@@ -7,6 +7,7 @@ import {
   OneToMany,
   CreateDateColumn,
   Unique,
+  JoinColumn,
 } from "typeorm";
 //entities
 import { Posts } from "./Posts";
@@ -21,16 +22,19 @@ export class PostOptions {
   id!: number;
 
   @ManyToOne(() => Posts, (post) => post.postOptions, { onDelete: "CASCADE" })
+  @JoinColumn({ name: "post_id" })
   post!: Posts;
 
   @ManyToOne(() => Options, (option) => option.postOptions, {
     onDelete: "CASCADE",
   })
+  @JoinColumn({ name: "option_id" })
   option!: Options;
 
   @ManyToOne(() => Users, (user) => user.postOptionsAdded, {
     onDelete: "CASCADE",
   })
+  @JoinColumn({ name: "added_by" })
   addedBy!: Users;
 
   @CreateDateColumn()

@@ -2,12 +2,9 @@
 import { AppDataSource } from "../data-source";
 //entities
 import { Posts } from "../entities/Posts";
-import { PostOptionVotes } from "../entities/PostOptionVotes";
-import { PostOptions } from "../entities/PostOptions";
 
 export class PostService {
   private postRepo = AppDataSource.getRepository(Posts);
-  private postOptionVotesRepo = AppDataSource.getRepository(PostOptionVotes);
 
   async getPostsWithVotes() {
     const posts = await this.postRepo.find({

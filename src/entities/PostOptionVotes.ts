@@ -1,4 +1,10 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from "typeorm";
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  ManyToOne,
+  JoinColumn,
+} from "typeorm";
 //entities
 import { Users } from "./Users";
 import { PostOptions } from "./PostOptions";
@@ -9,11 +15,13 @@ export class PostOptionVotes {
   id!: number;
 
   @ManyToOne(() => PostOptions, (po) => po.votes, { onDelete: "CASCADE" })
+  @JoinColumn({ name: "post_option_id" })
   postOption!: PostOptions;
 
   @ManyToOne(() => Users, (user) => user.postOptionVotes, {
     onDelete: "CASCADE",
   })
+  @JoinColumn({ name: "voted_by" })
   votedBy!: Users;
 
   @Column()
