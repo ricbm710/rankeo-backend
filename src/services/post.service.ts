@@ -2,9 +2,12 @@
 import { AppDataSource } from "../data-source";
 //entities
 import { Posts } from "../entities/Posts";
+import { PostOptionVotes } from "../entities/PostOptionVotes";
+import { PostOptions } from "../entities/PostOptions";
 
 export class PostService {
   private postRepo = AppDataSource.getRepository(Posts);
+  private postOptionVotesRepo = AppDataSource.getRepository(PostOptionVotes);
 
   async getPostsWithVotes() {
     const posts = await this.postRepo.find({
@@ -12,6 +15,9 @@ export class PostService {
         creator: true,
         category: true,
         votes: true,
+        postOptions: {
+          votes: true,
+        },
       },
     });
 
@@ -20,6 +26,11 @@ export class PostService {
       const upvotes = post.votes.filter((v) => v.is_upvote).length;
       const downvotes = post.votes.filter((v) => !v.is_upvote).length;
       const score = upvotes - downvotes;
+
+      // Count all post option votes
+      const optionVotesCount = post.postOptions.reduce((sum, option) => {
+        return sum + option.votes.length;
+      }, 0);
 
       return {
         id: post.id,
@@ -38,6 +49,7 @@ export class PostService {
         upvotes,
         downvotes,
         score,
+        optionVotesCount, // new field here
       };
     });
 
