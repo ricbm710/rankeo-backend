@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 //utils
 import { verifyToken } from "../utils/jwt";
+import { SimpleConsoleLogger } from "typeorm";
 
 export interface AuthenticatedRequest extends Request {
   user?: {
@@ -29,5 +30,24 @@ export const authenticate = (
     next();
   } catch (err) {
     res.status(403).json({ message: "Token inválido o expirado." });
+  }
+};
+
+export const blockIfAuthenticated = (
+  req: AuthenticatedRequest,
+  res: Response,
+  next: NextFunction
+) => {
+  const token = req.cookies.auth_token;
+  if (!token) {
+    return next();
+  }
+
+  try {
+    verifyToken(token) as AuthenticatedRequest["user"];
+    console.error("Usuario con sesión iniciada");
+    res.status(403).json({ message: "Usuario con sesión iniciada." });
+  } catch (err) {
+    next();
   }
 };
