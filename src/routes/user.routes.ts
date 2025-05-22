@@ -2,7 +2,7 @@
 import express from "express";
 //controllers
 import { checkEmailExists, registerUser } from "../controllers/user.controller";
-import { blockIfAuthenticated } from "../middleware/auth.middlware";
+import { blockIfAuthenticated } from "../middleware/auth.middleware";
 
 const router = express.Router();
 

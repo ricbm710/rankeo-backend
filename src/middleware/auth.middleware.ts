@@ -1,7 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 //utils
 import { verifyToken } from "../utils/jwt";
-import { SimpleConsoleLogger } from "typeorm";
 
 export interface AuthenticatedRequest extends Request {
   user?: {
