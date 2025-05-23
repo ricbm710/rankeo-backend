@@ -24,4 +24,11 @@ export class UserService {
   async findByEmail(email: string): Promise<Users | null> {
     return await this.userRepo.findOneBy({ email });
   }
+
+  async getUserProfile(userId: number): Promise<Users | null> {
+    return await this.userRepo.findOne({
+      where: { id: userId },
+      relations: ["posts"],
+    });
+  }
 }

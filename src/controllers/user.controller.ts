@@ -2,6 +2,7 @@
 import { Request, Response } from "express";
 //services
 import { UserService } from "../services/user.service";
+import { AuthenticatedRequest } from "../middleware/auth.middleware";
 
 const userService = new UserService();
 
@@ -46,5 +47,39 @@ export const checkEmailExists = async (req: Request, res: Response) => {
     res
       .status(500)
       .json({ message: "Error -> No se pudo chequear el correo." });
+  }
+};
+
+export const getFullUserProfile = async (
+  req: AuthenticatedRequest,
+  res: Response
+) => {
+  try {
+    if (!req.user) {
+      res.status(401).json({ message: "Usuario no autenticado." });
+      return;
+    }
+
+    const userId = Number(req.user.userId);
+
+    if (isNaN(userId)) {
+      res.status(400).json({ message: "ID de usuario inválido." });
+      return;
+    }
+
+    const user = await userService.getUserProfile(userId);
+
+    if (!user) {
+      res.status(404).json({ message: "Usuario no encontrado." });
+      return;
+    }
+
+    res.status(200).json({ user });
+    //TODO sanitize data to get rid of password & provider id
+  } catch (err) {
+    console.error("No se pudo conseguir el perfil:", err);
+    res
+      .status(500)
+      .json({ message: "Error -> No se pudo conseguir el perfil." });
   }
 };
