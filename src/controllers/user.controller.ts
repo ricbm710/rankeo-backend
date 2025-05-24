@@ -2,7 +2,10 @@
 import { Request, Response } from "express";
 //services
 import { UserService } from "../services/user.service";
+//middleware
 import { AuthenticatedRequest } from "../middleware/auth.middleware";
+//DTOs
+import { toUserProfileDTO } from "../dtos/userProfile.dto";
 
 const userService = new UserService();
 
@@ -62,11 +65,6 @@ export const getFullUserProfile = async (
 
     const userId = Number(req.user.userId);
 
-    if (isNaN(userId)) {
-      res.status(400).json({ message: "ID de usuario inválido." });
-      return;
-    }
-
     const user = await userService.getUserProfile(userId);
 
     if (!user) {
@@ -74,8 +72,10 @@ export const getFullUserProfile = async (
       return;
     }
 
-    res.status(200).json({ user });
-    //TODO sanitize data to get rid of password & provider id
+    //user contains private data I don't need such as password & provider id
+    //this converts user to UserProfileDTO
+    const userDTO = toUserProfileDTO(user);
+    res.status(200).json({ user: userDTO });
   } catch (err) {
     console.error("No se pudo conseguir el perfil:", err);
     res
