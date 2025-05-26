@@ -55,4 +55,56 @@ export class PostService {
 
     return formattedPosts;
   }
+
+  // ---------------> Get Posts created by a specific User Id
+
+  async getPostsByUserWithVotes(userId: number) {
+    const posts = await this.postRepo.find({
+      where: {
+        creator: { id: userId },
+      },
+      relations: {
+        creator: true,
+        category: true,
+        votes: true,
+        postOptions: {
+          votes: true,
+        },
+      },
+    });
+
+    const formattedPosts = posts.map((post) => {
+      const upvotes = post.votes.filter((v) => v.is_upvote).length;
+      const downvotes = post.votes.filter((v) => !v.is_upvote).length;
+      const score = upvotes - downvotes;
+
+      const optionVotesCount = post.postOptions.reduce((sum, option) => {
+        return sum + option.votes.length;
+      }, 0);
+
+      return {
+        id: post.id,
+        question: post.question,
+        image_url: post.image_url,
+        created_at: post.created_at,
+        creator: {
+          id: post.creator.id,
+          name: post.creator.name,
+          image_string: post.creator.image_string,
+        },
+        category: {
+          id: post.category.id,
+          name: post.category.category_name,
+        },
+        upvotes,
+        downvotes,
+        score,
+        optionVotesCount,
+      };
+    });
+
+    formattedPosts.sort((a, b) => b.score - a.score);
+
+    return formattedPosts;
+  }
 }

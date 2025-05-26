@@ -5,7 +5,7 @@ import { PostService } from "../services/post.service";
 
 const postService = new PostService();
 
-export const getRankedPosts = async (req: Request, res: Response) => {
+export const getRankedPosts = async (_req: Request, res: Response) => {
   try {
     const posts = await postService.getPostsWithVotes();
     res.json(posts);

@@ -6,8 +6,10 @@ import { UserService } from "../services/user.service";
 import { AuthenticatedRequest } from "../middleware/auth.middleware";
 //DTOs
 import { toUserProfileDTO } from "../dtos/userProfile.dto";
+import { PostService } from "../services/post.service";
 
 const userService = new UserService();
+const postService = new PostService();
 
 export const registerUser = async (req: Request, res: Response) => {
   try {
@@ -81,5 +83,22 @@ export const getFullUserProfile = async (
     res
       .status(500)
       .json({ message: "Error -> No se pudo conseguir el perfil." });
+  }
+};
+
+export const getUserPreviewPosts = async (
+  req: AuthenticatedRequest,
+  res: Response
+) => {
+  try {
+    const userId = Number(req.params.userId);
+
+    const posts = await postService.getPostsByUserWithVotes(userId);
+    res.json({ posts });
+  } catch (err) {
+    console.error("No se pudo conseguir los rankings:", err);
+    res
+      .status(500)
+      .json({ message: "Error -> No se pudo conseguir los rankings." });
   }
 };
