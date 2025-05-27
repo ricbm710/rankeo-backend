@@ -4,7 +4,7 @@ import express from "express";
 import {
   checkEmailExists,
   getFullUserProfile,
-  getUserPreviewPosts,
+  getUserPosts,
   registerUser,
 } from "../controllers/user.controller";
 import {
@@ -17,6 +17,6 @@ const router = express.Router();
 router.post("/users", blockIfAuthenticated, registerUser);
 router.get("/check-email", checkEmailExists);
 router.get("/user", authenticate, getFullUserProfile);
-router.get("/users/:userId/posts", getUserPreviewPosts);
+router.get("/users/:userId/posts", getUserPosts);
 
 export default router;

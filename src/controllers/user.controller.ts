@@ -86,19 +86,26 @@ export const getFullUserProfile = async (
   }
 };
 
-export const getUserPreviewPosts = async (
-  req: AuthenticatedRequest,
-  res: Response
-) => {
-  try {
-    const userId = Number(req.params.userId);
+export const getUserPosts = async (req: Request, res: Response) => {
+  const userId = parseInt(req.params.userId);
 
-    const posts = await postService.getPostsByUserWithVotes(userId);
-    res.json({ posts });
+  if (isNaN(userId)) {
+    res.status(400).json({ message: "Invalid user ID." });
+    return;
+  }
+
+  try {
+    const posts = await postService.getPostsWithVotes(
+      1,
+      "date",
+      "DESC",
+      userId
+    ); // just filtering by userId
+    res.json(posts);
   } catch (err) {
-    console.error("No se pudo conseguir los rankings:", err);
+    console.error("No se pudo traer los rankings del usuario:", err);
     res
       .status(500)
-      .json({ message: "Error -> No se pudo conseguir los rankings." });
+      .json({ message: "Error -> No se pudo traer los rankings del usuario." });
   }
 };
