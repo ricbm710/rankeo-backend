@@ -14,9 +14,7 @@ export const getRankedPosts = async (req: Request, res: Response) => {
       : undefined;
 
     const sortBy = req.query.sortBy === "date" ? "date" : "relevance"; // default: relevance
-    const sortOrder = req.query.order === "ASC" ? "ASC" : "DESC"; // default: DESC
-
-    console.log(sortOrder);
+    const sortOrder = req.query.order === "asc" ? "asc" : "desc"; // default: DESC
 
     const posts = await postService.getPostsWithVotes(
       page,

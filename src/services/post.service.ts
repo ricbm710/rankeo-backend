@@ -9,7 +9,7 @@ export class PostService {
   async getPostsWithVotes(
     page: number = 1,
     sortBy: "relevance" | "date" = "relevance",
-    sortOrder: "ASC" | "DESC" = "DESC",
+    sortOrder: "asc" | "desc" = "desc",
     userId?: number,
     categoryId?: number
   ) {
@@ -73,7 +73,7 @@ export class PostService {
     // Manual sort by score if "relevance" is selected
     if (sortBy === "relevance") {
       formattedPosts.sort((a, b) =>
-        sortOrder === "ASC" ? a.score - b.score : b.score - a.score
+        sortOrder === "asc" ? a.score - b.score : b.score - a.score
       );
     }
 
